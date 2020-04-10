@@ -1,21 +1,43 @@
-import React from 'react';
+import React from "react";
 // import logo from './logo.svg';
-import './App.css';
-// import Table from "./components/table/table"
-import Header from "./components/header/header"
-// import Nav from "./components/navbar/navbar"
-import EmployeesList from "./components/Employees/EmployeesList"
-import EmployeesInput from "./components/Employees/EmployeesInput"
+import "./App.css";
+import "./index.css";
+import Header from "../src/componentes/header/header";
+import Table from "./componentes/table/table";
+import SearchInput from "./componentes/searchInput/searchInput";
+import { AppContext } from "./AppContext";
+import { AppEventContext } from "./AppContext";
 
-export default function App() {
+
+function App() {
+  const [searchText, setSearchText] = React.useState('');
+
+  const handleInputChange = (event) => {
+    console.log(event)
+
+    setSearchText(event.currentTarget.value);
+
+  } 
+
+  const appContext = {
+    searchText,
+  }
+
+  const appEventContext = {
+    onSeachInputChange: handleInputChange
+  }
+
   return (
-    <div className= "container">
-      <Header/>
-      <EmployeesInput/>
-      <EmployeesList/> 
-
-      
-    </div>
+    <AppContext.Provider value={appContext}>
+       <AppEventContext.Provider value={appEventContext}>
+      <div className="App">
+        <Header />
+        <SearchInput />
+        <Table />
+      </div>
+      </AppEventContext.Provider>
+    </AppContext.Provider>
   );
 }
 
+export default App;
